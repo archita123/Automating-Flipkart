@@ -4,7 +4,6 @@ plugins {
 }
 
 
-
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'application'
@@ -19,6 +18,9 @@ repositories {
 
 dependencies {
 
+    // // https://mvnrepository.com/artifact/org.testng/testng
+      testImplementation group: 'org.testng', name: 'testng', version: '7.9.0'
+
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
    
@@ -30,12 +32,18 @@ dependencies {
 
 }
 
-//task startScript(type:Exec) {
-//    commandLine './selenium-run.sh'
-//}
 
-//run.dependsOn startScript
+test {
+    useTestNG() {
+        suites 'src/test/resources/testng.xml'
+    }
 
-//test.dependsOn startScript
+    testLogging {
+        showStandardStreams = true
+        events "passed", "skipped", "failed"
+    }
+}
 
 mainClassName = 'demo.App'
+
+
